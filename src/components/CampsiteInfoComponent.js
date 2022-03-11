@@ -43,14 +43,17 @@ import { Card, CardImg, CardText, CardBody, CardTitle } from 'reactstrap';
     render() {
         if (this.props.campsite) {
              return  (
-                <div className="row">
-                 {this.renderCampsite(this.props.campsite)}
-                 {this.renderComments(this.props.campsite.comments)}
-                </div>
+                 <div className="container">
+                    <div className="row">
+                        {this.renderCampsite(this.props.campsite)}
+                        {this.renderComments(this.props.campsite.comments)}
+                    </div>
+                 </div>
+                
             );
-        } else {
-             return <div></div>  
-        }
+        } 
+             return <div />  
+        
     }     
 }
 
