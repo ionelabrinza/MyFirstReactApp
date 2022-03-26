@@ -1,13 +1,15 @@
 import React from 'react';
 import { Breadcrumb, BreadcrumbItem, Card, CardBody, CardHeader, Media } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import {baseUrl} from '../shared/baseUrl';
+import { Loading } from './LoadingComponent';
 
 
 
 function RenderPartner({partner}) {
 if (partner) {
     return (<React.Fragment>
-                <Media object width="150" src={partner.image} alt={partner.name}/>
+                <Media object width="150" src={baseUrl + partner.image} alt={partner.name}/>
                 <Media body className="ml-5 mb-4">
                     <Media heading>
                     {partner.name}
@@ -19,15 +21,33 @@ if (partner) {
     {return (<div></div>)}
 }
 
-function About(props) {
-
-    const partners = props.partners.map(partner => {
+function PartnerList (props) {
+    console.log(props.partners)
+    const partners = props.partners.partners.map(partner => {
         return (
             <Media tag="li" key={partner.id}>
                 <RenderPartner partner={partner}/>
             </Media>
         );
     });
+
+    if(props.partners.isLoading) {
+        return <Loading />;
+    }
+    if (props.partners.errMess) {
+        return <h4>{props.partners.errMess}</h4>
+    }
+
+    return (
+        <div className="col mt-4">
+            <Media list={partners} />
+        </div>
+    )
+}
+
+function About(props) {
+
+    
 
     return (
         <div className="container">
@@ -81,11 +101,7 @@ function About(props) {
                 <div className="col-12">
                     <h3>Community Partners</h3>
                 </div>
-                <div className="col mt-4">
-                    <Media list>
-                        {partners}
-                    </Media>
-                </div>
+                <PartnerList partners={props.partners} />
             </div>
         </div>
     );
